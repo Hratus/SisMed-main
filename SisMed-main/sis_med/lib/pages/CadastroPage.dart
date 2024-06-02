@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:sis_med/models/cadastro.dart';
 import 'login.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+import 'dart:io';
 
 class CadastroPage extends StatelessWidget {
-  @override
+
+
+TextEditingController fullNameInputController = TextEditingController();
+TextEditingController emailInputController = TextEditingController();
+TextEditingController cpfInputController = TextEditingController();
+TextEditingController telefoneInoutController = TextEditingController();
+TextEditingController senhaIputController = TextEditingController();
+TextEditingController dataNascInputController = TextEditingController();
+TextEditingController cidadeInputController = TextEditingController();
+TextEditingController estadoInputController =TextEditingController();
+TextEditingController planoDeSaudeInputController = TextEditingController();
+
+
+
+///mudar tudo para FORMS
+
+
+
+      @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFB9CCF2),
+
+      backgroundColor: const Color(0xFFB9CCF2),
       body: Stack(
         children: [
           Positioned(
             left: -60,
             top: 650,
             child: CustomPaint(
-              size: Size(300, 300),
-              painter: EllipsePainter(color: Color.fromRGBO(10, 72, 233, 0.42)),
+              size: const Size(300, 300),
+              painter: EllipsePainter(color: const Color.fromRGBO(10, 72, 233, 0.42)),
             ),
           ),
           Positioned(
             left: 206.02,
             top: -116,
             child: CustomPaint(
-              size: Size(300, 300),
-              painter: EllipsePainter(color: Color.fromRGBO(10, 72, 233, 0.42)),
+              size: const Size(300, 300),
+              painter: EllipsePainter(color: const Color.fromRGBO(10, 72, 233, 0.42)),
             ),
           ),
           Center(
@@ -31,79 +53,173 @@ class CadastroPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 75.0),
-                    Text(
+                    const SizedBox(height: 75.0),
+                    const Text(
                       'Cadastro',
                       style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white, // Define a cor do título
+                        color: Colors.black54, // Define a cor do título
                         fontFamily: 'MinhaFonte', // Usa a fonte personalizada
+                      )
+                    ),
+
+
+                    const SizedBox(height: 20),
+                   TextFormField(
+                     controller: fullNameInputController,
+                     autofocus: true,
+                     decoration:  const InputDecoration(
+                       labelText: "Nome Completo",
+                       labelStyle: TextStyle(
+                         color: Colors.white
+                       ),
+                       prefixIcon: Icon(Icons.person)
+                     )
+                   ),
+
+
+                    TextFormField(
+                      controller: emailInputController ,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        labelText: "Email",
+                        labelStyle: TextStyle(
+                          color: Colors.white
                       ),
+                        prefixIcon: Icon(Icons.mail_sharp)
+                    )
                     ),
-                    SizedBox(height: 20),
-                    CustomTextField(
-                      labelText: 'Nome completo',
-                      icon: Icons.person,
+
+
+                    TextFormField(
+                      controller: cpfInputController,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        labelText: "Cpf",
+                        labelStyle: TextStyle(
+                          color: Colors.white
+                        ),
+                          prefixIcon: Icon(Icons.assignment_ind)
+                      )
                     ),
-                    CustomTextField(
-                      labelText: 'Email',
-                      icon: Icons.email,
+
+
+                    TextFormField(
+                      controller: telefoneInoutController,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        labelText: "Telefone",
+                        labelStyle: TextStyle(
+                          color: Colors.white
+                        ),
+                        prefixIcon:  Icon(Icons.phone)
+
+                      )
                     ),
-                    CustomTextField(
-                      labelText: 'CPF',
-                      icon: Icons.assignment_ind,
+                   
+
+                   TextFormField(controller: senhaIputController,
+                     autofocus: true,
+                     //obscureText: true,
+                     decoration: const InputDecoration(
+                       labelText: "Senha",
+                       labelStyle: TextStyle(
+                         color: Colors.white
+                       ),
+                         prefixIcon: Icon(Icons.lock)
+                     )
+
+                   ),
+                    
+                    
+                    TextFormField(controller: senhaIputController,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        labelText: "Confirme sua Senha",
+                        labelStyle: TextStyle(
+                          color: Colors.white
+                        ),
+                        prefixIcon: Icon(Icons.lock)
+                      )
+
                     ),
-                    CustomTextField(
-                      labelText: 'Número de celular',
-                      icon: Icons.phone,
+
+                    TextFormField(controller: dataNascInputController,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        labelText: "Data de Nascimento",
+                        labelStyle: TextStyle(
+                          color: Colors.white
+                        ),
+                        prefixIcon: Icon(Icons.calendar_month)
+
+                      )
+
                     ),
-                    CustomTextField(
-                      labelText: 'Senha',
-                      icon: Icons.lock,
-                      obscureText: true,
+                    TextFormField(controller: estadoInputController,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        labelText: "estado",
+                        labelStyle: TextStyle(
+                          color: Colors.white
+                        ),
+                        prefixIcon: Icon(Icons.location_on_rounded)
+                      )
+
                     ),
-                    CustomTextField(
-                      labelText: 'Confirmar senha',
-                      icon: Icons.lock_outline,
-                      obscureText: true,
+
+
+                    TextFormField(controller: cidadeInputController,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        labelText: "Cidade",
+                        labelStyle: TextStyle(
+                          color: Colors.white
+                        ),
+                        prefixIcon: Icon(Icons.location_city)
+                      )
                     ),
-                    CustomTextField(
-                      labelText: 'Data de nascimento',
-                      icon: Icons.calendar_today,
+
+                    TextFormField(controller: planoDeSaudeInputController,
+                    autofocus: true,
+                      decoration: const InputDecoration(
+                        labelText: "Plano de Saude",
+                        labelStyle: TextStyle(
+                          color: Colors.white
+                        ),
+                        prefixIcon: Icon(Icons.location_city)
+                      )
                     ),
-                    CustomTextField(
-                      labelText: 'Estado',
-                      icon: Icons.location_on,
-                    ),
-                    CustomTextField(
-                      labelText: 'Cidade',
-                      icon: Icons.location_city,
-                    ),
-                    CustomTextField(
-                      labelText: 'Plano de saúde',
-                      icon: Icons.local_hospital,
-                    ),
-                    SizedBox(height: 20),
+
+
+
+
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
                         // Adicionar lógica de cadastro aqui
+                        doSignUp();
+
                       },
+
+
+
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.black,
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
-                        minimumSize: Size(double.infinity, 50.0),
+                        minimumSize: const Size(double.infinity, 50.0),
                       ),
-                      child: Text('Cadastrar'),
+                      child: const Text('Cadastrar'),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Já possui cadastro?'),
+                        const Text('Já possui cadastro?'),
                         TextButton(
                           onPressed: () {
                             Navigator.push(
@@ -111,9 +227,9 @@ class CadastroPage extends StatelessWidget {
                               MaterialPageRoute(builder: (context) => LoginPage()),
                             );
                           },
-                          child: Text(
+                          child:  const Text(
                             'Faça Login',
-                            style: TextStyle(color: Colors.red),
+                            style:  TextStyle(color: Colors.red),
                           ),
                         ),
                       ],
@@ -126,15 +242,32 @@ class CadastroPage extends StatelessWidget {
         ],
       ),
     );
+
+  }
+  void doSignUp(){
+        Cadastro newCadastro = Cadastro(nomeCompleto: fullNameInputController.text,
+          email: emailInputController.text,
+          cpf: cpfInputController.text,
+          telefone: telefoneInoutController.text,
+          senha: senhaIputController.text,
+          dataNascimento: dataNascInputController.text,
+          cidade: cidadeInputController.text,
+          estado: estadoInputController.text,
+          planoDeSaude: planoDeSaudeInputController.text,
+        );
+        print(newCadastro);
   }
 }
+
+
+
 
 class CustomTextField extends StatelessWidget {
   final String labelText;
   final IconData icon;
   final bool obscureText;
 
-  CustomTextField({required this.labelText, required this.icon, this.obscureText = false});
+  const CustomTextField({super.key, required this.labelText, required this.icon, this.obscureText = false});
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +290,8 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
+
+
 class EllipsePainter extends CustomPainter {
   final Color color;
 
@@ -173,5 +308,31 @@ class EllipsePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
+  }
+
+  void doSaveDataCadastro() async{
+    var parseObject = ParseObject("Cadastro")
+      ..set("nomeCompleto", "" )
+      ..set("email", "")
+      ..set("cpf", "")
+      ..set("telefone", "")
+      ..set("senha", "")
+      ..set("dataNascimento", "")
+      ..set("cidade", "")
+      ..set("estado", "")
+      ..set("planoDeSaude", "");
+
+    final ParseResponse parseResponse = await parseObject.save();
+
+
+
+  }
+
+  void doReadDataCadastro() async{
+
+  }
+
+  void doUpdateDataCadastro() async{
+
   }
 }

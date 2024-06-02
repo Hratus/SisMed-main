@@ -6,9 +6,9 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 void main() async{
   runApp(MyApp());
   WidgetsFlutterBinding.ensureInitialized();
-       final keyApplicationId = 'E6HNaApKj5z8wWPcdkurSNblLJHGRiR3ojGj3Shl';
-       final keyClientKey = 'dZmKErTwnzs3EqGw1NaQPNoZcvAsIG4G4RQh0Zx3';
-       final keyParseServerUrl = 'https://parseapi.back4app.com';
+       const keyApplicationId = 'E6HNaApKj5z8wWPcdkurSNblLJHGRiR3ojGj3Shl';
+       const keyClientKey = 'dZmKErTwnzs3EqGw1NaQPNoZcvAsIG4G4RQh0Zx3';
+       const keyParseServerUrl = 'https://parseapi.back4app.com';
 
        await Parse().initialize(keyApplicationId, keyParseServerUrl,
                clientKey: keyClientKey, autoSendSessionId: true);
@@ -18,7 +18,7 @@ void main() async{
   //              'message', 'Hey ! First message from Flutter. Parse is now connected');
    // await firstObject.save();
    // print('done');
-
+// voce parou aqui!!!!!!!!!!!
 }
 
 class MyApp extends StatelessWidget {
@@ -31,5 +31,12 @@ class MyApp extends StatelessWidget {
       home: PrincipalPage(), // Chamando a tela principal
     );
   }
+
+
+
+
+
+
+
 }
 

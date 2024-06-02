@@ -73,7 +73,7 @@ class PrincipalPage extends StatelessWidget {
                     ),
                     minimumSize: const Size(250.0, 50.0),
                   ),
-                  child: const Text('Cadastroa-se'),
+                  child: const Text('Cadastrar-se'),
                 ),
               ],
             ),
