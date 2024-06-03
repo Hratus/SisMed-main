@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sis_med/models/cadastro.dart';
 import 'pages/PrincipalPage.dart'; // Certifique-se de que o caminho esteja correto
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
@@ -12,13 +13,9 @@ void main() async{
 
        await Parse().initialize(keyApplicationId, keyParseServerUrl,
                clientKey: keyClientKey, autoSendSessionId: true);
-  //Inicia uma classe no parse_server
-  //var firstObject = ParseObject('FirstClass')
-  //     ..set(
-  //              'message', 'Hey ! First message from Flutter. Parse is now connected');
-   // await firstObject.save();
-   // print('done');
-// voce parou aqui!!!!!!!!!!!
+
+
+
 }
 
 class MyApp extends StatelessWidget {
@@ -31,7 +28,6 @@ class MyApp extends StatelessWidget {
       home: PrincipalPage(), // Chamando a tela principal
     );
   }
-
 
 
 
