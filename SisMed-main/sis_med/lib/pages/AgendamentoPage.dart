@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart'; // Importação necessária para usar DateFormat
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class AgendamentoPage extends StatefulWidget {
@@ -7,10 +7,13 @@ class AgendamentoPage extends StatefulWidget {
   _AgendamentoPageState createState() => _AgendamentoPageState();
 }
 
+
+
 class _AgendamentoPageState extends State<AgendamentoPage> {
   final dropValue2 = ValueNotifier('');
   final dropValue3 = ValueNotifier('');
   final dropValue4 = ValueNotifier('');
+  final dateController = TextEditingController(); // Controlador para o campo de data
 
   final dropOpcoesEspecialidade = ['Psicologia', 'Psiquiatria'];
   final dropOpcoesModalidade = ['Presencial', 'Online'];
@@ -35,25 +38,59 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
     }
   }
 
-  Future<void> _agendar() async {
-    final agendamento = ParseObject('Agendamento')
-      ..set('especialidade', dropValue2.value)
-      ..set('modalidade', dropValue3.value)
-      ..set('medico', dropValue4.value); ///------> passar para ponteiro para corrigir missmatch
-    ///
+  Future<String?> _fetchPacienteObjectId() async {
+    ParseUser currentUser = await ParseUser.currentUser() as ParseUser;
+    final query = QueryBuilder(ParseObject('Paciente'))
+      ..whereEqualTo('objectId', ParseUser.forQuery()..objectId = currentUser.objectId);
+    final response = await query.query();
 
-    final ParseResponse response = await agendamento.save();
-
-    if (response.success) {
-      // Exibe uma mensagem de sucesso ou redireciona o usuário
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Agendamento realizado com sucesso!'),
-      ));
+    if (response.success && response.results != null && response.results!.isNotEmpty) {
+      return (response.results!.first as ParseObject).objectId;
     } else {
-      // Exibe uma mensagem de erro
+      return null;
+    }
+  }
+
+  Future<void> _agendar() async {
+    String? pacienteObjectId = await _fetchPacienteObjectId();
+
+    if (pacienteObjectId != null) {
+      final agendamento = ParseObject('Agendamento')
+        ..set('especialidade', dropValue2.value)
+        ..set('modalidade', dropValue3.value)
+        ..set('medico', dropValue4.value)
+        ..set('dataConsulta', dateController.text)
+        ..set('Paciente', ParseObject('Paciente')..objectId = pacienteObjectId);
+
+      final ParseResponse response = await agendamento.save();
+
+      if (response.success) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Agendamento realizado com sucesso!'),
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Erro ao realizar o agendamento: ${response.error?.message}'),
+        ));
+      }
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Erro ao realizar o agendamento: ${response.error?.message}'),
+        content: Text('Erro: Paciente não encontrado.'),
       ));
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null) {
+      setState(() {
+        dateController.text = DateFormat('dd/MM/yyyy').format(picked);
+      });
     }
   }
 
@@ -85,7 +122,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
               children: [
                 Container(
                   width: 331.0,
-                  height: 400.0,
+                  height: 500.0,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0),
@@ -141,7 +178,6 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                           },
                         ),
                       ),
-
                       const SizedBox(height: 10.0),
                       Expanded(
                         child: ValueListenableBuilder<String>(
@@ -167,16 +203,28 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                           },
                         ),
                       ),
+                      const SizedBox(height: 10.0),
+                      Expanded(
+                        child: TextFormField(
+                          controller: dateController,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            labelText: 'Data da Consulta',
+                            prefixIcon: Icon(Icons.calendar_today),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onTap: () => _selectDate(context),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 50.0),
                 ElevatedButton(
                   onPressed: () {
-                    // Chama a função para salvar o agendamento
                     _agendar();
-                    // Navega para a página de consulta
                     Navigator.pushNamed(context, '/consultar');
                   },
                   style: ElevatedButton.styleFrom(

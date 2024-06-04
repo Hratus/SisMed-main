@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 
@@ -19,6 +20,22 @@ class _CadastroPageState extends State<CadastroPage> {
   final _stateController = TextEditingController();
   final _cityController = TextEditingController();
   final _healthPlanController = TextEditingController();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != DateTime.now()) {
+      setState(() {
+        _dobController.text = DateFormat('dd/MM/yy').format(picked);
+      });
+    }
+  }
+
+
 
   @override
   void dispose() {
@@ -58,13 +75,56 @@ class _CadastroPageState extends State<CadastroPage> {
         ..set('planoDeSaude', planoDeSaude);
 
       // Salva o objeto no Parse Server
+
       var response = await cadastro.save();
 
-      if (response.success) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastro realizado com sucesso!')));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response.error?.message ?? 'Erro ao cadastrar!')));
+      final birthday = DateFormat('dd/MM/yyyy').parse(dataNascimento);
+      final age = DateTime.now().difference(birthday).inDays / 365;
+
+      // Verifica se a idade é menor que 18 anos
+      if (age < 18) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Você deve ter mais de 18 anos para se cadastrar.'),
+          ),
+        );
+        return; // Interrompe o processo de registro
       }
+
+
+
+      if(response.success) {
+        final paciente = ParseObject("Paciente")
+          ..set('nomeCompleto', nomeCompleto)..set('cpf', cpf);
+
+        var responsePaciente = await paciente.save();
+
+
+        if (responsePaciente.success) {
+          // Obter o objectId do Paciente salvo
+          final pacienteObjectId = paciente.objectId;
+
+          // Criação do objeto Login com ponteiro para Paciente
+
+          final login = ParseObject("Login")
+            ..set('cpf', cpf)..set('senha', senha)..set(
+                'paciente', ParseObject("Paciente")
+              ..objectId = pacienteObjectId);
+
+          var responseLogin = await login.save();
+
+          if (responseLogin.success) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Cadastro realizado com sucesso!')));
+          }
+
+        }
+      }
+
+
+
+
+
     }
   }
 
@@ -143,7 +203,9 @@ class _CadastroPageState extends State<CadastroPage> {
                 ),
                 TextFormField(
                   controller: _dobController,
-                  decoration: InputDecoration(labelText: 'Data de Nascimento', prefixIcon: Icon(Icons.calendar_today)),
+                  decoration: InputDecoration(labelText: 'Data de Nascimento', prefixIcon: Icon(Icons.calendar_today)
+                  ),readOnly: true,
+                  onTap: () => _selectDate(context),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Por favor, insira sua data de nascimento';

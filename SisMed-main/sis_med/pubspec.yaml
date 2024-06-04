@@ -30,6 +30,7 @@ environment:
 dependencies:
   shared_preferences: ^2.2.3
   parse_server_sdk_flutter: ^8.0.0
+  intl: ^0.17.0
   flutter:
     sdk: flutter
 

@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
         var username = user.get<String>('username');
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login realizado com sucesso!')));
-          Navigator.pushReplacement(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
         );
@@ -121,4 +121,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
