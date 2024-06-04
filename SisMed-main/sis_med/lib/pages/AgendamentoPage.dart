@@ -1,17 +1,61 @@
 import 'package:flutter/material.dart';
 
-class AgendamentoPage extends StatelessWidget {
-  AgendamentoPage({Key? key}) : super(key: key);
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
-  final dropValue1 = ValueNotifier('');
+class AgendamentoPage extends StatefulWidget {
+  @override
+  _AgendamentoPageState createState() => _AgendamentoPageState();
+}
+
+class _AgendamentoPageState extends State<AgendamentoPage> {
   final dropValue2 = ValueNotifier('');
   final dropValue3 = ValueNotifier('');
   final dropValue4 = ValueNotifier('');
 
-  final dropOpcoesBeneficiario = ['Beneficiário 1', 'Beneficiário 2', 'Beneficiário 3'];
   final dropOpcoesEspecialidade = ['Psicologia', 'Psiquiatria'];
   final dropOpcoesModalidade = ['Presencial', 'Online'];
-  final dropOpcoesProfissional = ['Profissional 1', 'Profissional 2', 'Profissional 3'];
+  List<String> dropOpcoesProfissional = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProfissionais();
+  }
+
+  Future<void> _fetchProfissionais() async {
+    final ParseResponse apiResponse = await ParseObject('Medico').getAll();
+    if (apiResponse.success && apiResponse.results != null) {
+      setState(() {
+        dropOpcoesProfissional = apiResponse.results!
+            .map<String>((e) => e.get<String>('nomeCompleto') ?? '')
+            .where((nome) => nome.isNotEmpty)
+            .toSet()
+            .toList();
+      });
+    }
+  }
+
+  Future<void> _agendar() async {
+    final agendamento = ParseObject('Agendamento')
+      ..set('especialidade', dropValue2.value)
+      ..set('modalidade', dropValue3.value)
+      ..set('medico', dropValue4.value); ///------> passar para ponteiro para corrigir missmatch
+    ///
+
+    final ParseResponse response = await agendamento.save();
+
+    if (response.success) {
+      // Exibe uma mensagem de sucesso ou redireciona o usuário
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Agendamento realizado com sucesso!'),
+      ));
+    } else {
+      // Exibe uma mensagem de erro
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Erro ao realizar o agendamento: ${response.error?.message}'),
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,46 +85,21 @@ class AgendamentoPage extends StatelessWidget {
               children: [
                 Container(
                   width: 331.0,
-                  height: 487.0,
+                  height: 400.0,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  padding: EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      Expanded( // Para ocupar todo o espaço disponível
-                        child: ValueListenableBuilder<String>(
-                          valueListenable: dropValue1,
-                          builder: (BuildContext context, String value, _) {
-                            return DropdownButtonFormField<String>(
-                              isExpanded: true,
-                              icon: const Icon(Icons.account_circle),
-                              hint: const Text('Beneficiário'),
-                              decoration: InputDecoration(
-                                labelText: 'Beneficiário',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              value: (value.isEmpty) ? null : value,
-                              onChanged: (escolha) => dropValue1.value = escolha.toString(),
-                              items: dropOpcoesBeneficiario.map((op) => DropdownMenuItem(
-                                value: op,
-                                child: Text(op),
-                              )).toList(),
-                            );
-                          },
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       Expanded(
                         child: ValueListenableBuilder<String>(
                           valueListenable: dropValue2,
                           builder: (BuildContext context, String value, _) {
                             return DropdownButtonFormField<String>(
                               isExpanded: true,
-                              //icon: const Icon(Icons.account_circle),
                               hint: const Text('Especialidade'),
                               decoration: InputDecoration(
                                 labelText: 'Especialidade',
@@ -98,14 +117,13 @@ class AgendamentoPage extends StatelessWidget {
                           },
                         ),
                       ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       Expanded(
                         child: ValueListenableBuilder<String>(
                           valueListenable: dropValue3,
                           builder: (BuildContext context, String value, _) {
                             return DropdownButtonFormField<String>(
                               isExpanded: true,
-                              //icon: const Icon(Icons.account_circle),
                               hint: const Text('Modalidade'),
                               decoration: InputDecoration(
                                 labelText: 'Modalidade',
@@ -124,7 +142,7 @@ class AgendamentoPage extends StatelessWidget {
                         ),
                       ),
 
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       Expanded(
                         child: ValueListenableBuilder<String>(
                           valueListenable: dropValue4,
@@ -156,35 +174,10 @@ class AgendamentoPage extends StatelessWidget {
                 const SizedBox(height: 50.0),
                 ElevatedButton(
                   onPressed: () {
-                    // Abrir o popup ao clicar no botão "Próximo"
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Dados Selecionados'),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Beneficiário: ${dropValue1.value}'),
-                              Text('Especialidade: ${dropValue2.value}'),
-                              Text('Modalidade: ${dropValue3.value}'),
-                              Text('Profissional: ${dropValue4.value}'),
-                            ],
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                // Lógica para confirmar
-                                Navigator.of(context).pop(); // Fechar o popup
-
-                              },
-                              child: Text('Confirmar'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
+                    // Chama a função para salvar o agendamento
+                    _agendar();
+                    // Navega para a página de consulta
+                    Navigator.pushNamed(context, '/consultar');
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.black,
@@ -226,5 +219,3 @@ class EllipsePainter extends CustomPainter {
     return false;
   }
 }
-
-

@@ -34,6 +34,9 @@ class _LoginPageState extends State<LoginPage> {
       var response = await query.query();
 
       if (response.success && response.results != null && response.results!.isNotEmpty) {
+        var user = response.results!.first;
+        var username = user.get<String>('username');
+
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login realizado com sucesso!')));
           Navigator.pushReplacement(
           context,

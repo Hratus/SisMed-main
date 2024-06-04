@@ -1,11 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ConsultarPage extends StatelessWidget {
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+
+class ConsultarPage extends StatefulWidget {
+  @override
+  _ConsultarPageState createState() => _ConsultarPageState();
+}
+
+class _ConsultarPageState extends State<ConsultarPage> {
+  List<ParseObject> agendamentos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAgendamentos();
+  }
+
+  Future<void> _fetchAgendamentos() async {
+    final ParseResponse apiResponse = await ParseObject('Agendamento').getAll();
+    if (apiResponse.success && apiResponse.results != null) {
+      setState(() {
+        agendamentos = List<ParseObject>.from(apiResponse.results!);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFB9CCF2), // Cor de fundo igual à tela inicial
+      backgroundColor: const Color(0xFFB9CCF2),
       body: Stack(
         children: [
           Positioned(
@@ -35,11 +59,13 @@ class ConsultarPage extends StatelessWidget {
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
-                _buildAgendamentoCard(),
-                SizedBox(height: 20),
-                _buildAgendamentoCard(),
-                SizedBox(height: 20),
-                _buildAgendamentoCard(),
+                ListView.builder(
+                  itemCount: agendamentos.length,
+                  itemBuilder: (context, index) {
+                    final agendamento = agendamentos[index];
+                    return _buildAgendamentoCard(agendamento);
+                  },
+                ),
               ],
             ),
           ),
@@ -48,26 +74,26 @@ class ConsultarPage extends StatelessWidget {
     );
   }
 
-  Widget _buildAgendamentoCard() {
+  Widget _buildAgendamentoCard(ParseObject agendamento) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: SizedBox( // Alteração aqui
-        width: 300, // Define a largura do card como a largura máxima possível
+      child: SizedBox(
+        width: 300,
         child: Padding(
           padding: EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Paciente: Fulano de Tal',
+                'Paciente: ${agendamento.get<String>('paciente')}',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
-              Text('Especialidade: Psiquiatria'),
-              Text('Modalidade: Presencial'),
-              Text('Profissional: Dr. João Silva'),
-              Text('Data: 12/05/2024'),
-              Text('Hora: 10:00'),
+              Text('Especialidade: ${agendamento.get<String>('especialidade')}'),
+              Text('Modalidade: ${agendamento.get<String>('modalidade')}'),
+              Text('Profissional: ${agendamento.get<String>('profissional')}'),
+              Text('Data: ${agendamento.get<String>('data')}'),
+              Text('Hora: ${agendamento.get<String>('hora')}'),
             ],
           ),
         ),

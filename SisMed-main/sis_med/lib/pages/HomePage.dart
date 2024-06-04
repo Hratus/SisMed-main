@@ -1,12 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'AgendamentoPage.dart';
 import 'ConsultarPage.dart'; // Importe a página de consulta aqui
 import 'ConsultarCancelamentoPage.dart';
 import 'CadastroPage.dart';
+import 'PrincipalPage.dart';
 
 class HomePage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: const Color(0xFFB9CCF2),
       body: Stack(
@@ -35,7 +39,7 @@ class HomePage extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: const Text(
-                    'Olá, \n Fulano da Silva',
+                    'Olá, \n Seja Bem Vindo(a)',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -121,6 +125,10 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 50.0),
                 ElevatedButton(
                   onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => PrincipalPage()),
+                    );
                     // Lógica para sair
                   },
                   style: ElevatedButton.styleFrom(
