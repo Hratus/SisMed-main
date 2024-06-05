@@ -172,10 +172,10 @@ packages:
     dependency: transitive
     description:
       name: idb_shim
-      sha256: "0566abfc41fa38889a4575f371d54860f069a7bcf6fcfdf8cf6a242e9d5e248f"
+      sha256: "47bc21861d15a855efc8f73a31f980d89c8208e3c9835251724200014c1a58ef"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.1+1"
+    version: "2.4.1+3"
   intl:
     dependency: "direct main"
     description:
@@ -380,18 +380,18 @@ packages:
     dependency: transitive
     description:
       name: sembast
-      sha256: dbe19600cff55d43f19405be79138c3fd2c08a87b0b152b18609b9427d113a64
+      sha256: d263baf2484acf58e28587957ebd5dcb9a3db2973dcfe18d431c5f6949d04079
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.1"
+    version: "3.7.1+1"
   sembast_web:
     dependency: transitive
     description:
       name: sembast_web
-      sha256: e9a7209c279e9ef05d36118152189a9d901c363fb10216dae256e7ce5d78eddb
+      sha256: "32cc04adb62ce50bb5ad6a87c640d1c954254e5acc4744fcf601bbc3ee0aef0b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.0+1"
   shared_preferences:
     dependency: "direct main"
     description:

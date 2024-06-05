@@ -130,22 +130,36 @@ class _CadastroPageState extends State<CadastroPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Cadastro')),
+      backgroundColor: Color(0xFFB9CCF2),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 TextFormField(
                   controller: _usernameController,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')), // Permite apenas letras
                   ],
-                  decoration: InputDecoration(labelText: 'Nome Completo', prefixIcon: Icon(Icons.person)),
+                  decoration: InputDecoration(
+                    labelText: 'Nome Completo',
+                    prefixIcon: Icon(Icons.person),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Por favor, insira seu nome completo';
@@ -153,9 +167,23 @@ class _CadastroPageState extends State<CadastroPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _emailController,
-                  decoration: InputDecoration(labelText: 'Email', prefixIcon: Icon(Icons.email)),
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    prefixIcon: Icon(Icons.email),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Por favor, insira seu email';
@@ -163,11 +191,25 @@ class _CadastroPageState extends State<CadastroPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _cpfController,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: 'Cpf', prefixIcon: Icon(Icons.badge)),
+                  decoration: InputDecoration(
+                    labelText: 'CPF',
+                    prefixIcon: Icon(Icons.badge),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Por favor, insira seu CPF';
@@ -175,11 +217,25 @@ class _CadastroPageState extends State<CadastroPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _phoneController,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: 'Telefone', prefixIcon: Icon(Icons.phone)),
+                  decoration: InputDecoration(
+                    labelText: 'Telefone',
+                    prefixIcon: Icon(Icons.phone),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Por favor, insira seu telefone';
@@ -187,9 +243,23 @@ class _CadastroPageState extends State<CadastroPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: InputDecoration(labelText: 'Senha', prefixIcon: Icon(Icons.lock)),
+                  decoration: InputDecoration(
+                    labelText: 'Senha',
+                    prefixIcon: Icon(Icons.lock),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
                   obscureText: true,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -198,9 +268,23 @@ class _CadastroPageState extends State<CadastroPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _confirmPasswordController,
-                  decoration: InputDecoration(labelText: 'Confirme sua Senha', prefixIcon: Icon(Icons.lock)),
+                  decoration: InputDecoration(
+                    labelText: 'Confirme sua Senha',
+                    prefixIcon: Icon(Icons.lock),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
                   obscureText: true,
                   validator: (value) {
                     if (value != _passwordController.text) {
@@ -209,10 +293,24 @@ class _CadastroPageState extends State<CadastroPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _dobController,
-                  decoration: InputDecoration(labelText: 'Data de Nascimento', prefixIcon: Icon(Icons.calendar_today)
-                  ),readOnly: true,
+                  decoration: InputDecoration(
+                    labelText: 'Data de Nascimento',
+                    prefixIcon: Icon(Icons.calendar_today),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
+                  readOnly: true,
                   onTap: () => _selectDate(context),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -221,12 +319,26 @@ class _CadastroPageState extends State<CadastroPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _stateController,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')), // Permite apenas letras
                   ],
-                  decoration: InputDecoration(labelText: 'Estado', prefixIcon: Icon(Icons.map)),
+                  decoration: InputDecoration(
+                    labelText: 'Estado',
+                    prefixIcon: Icon(Icons.map),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Por favor, insira seu estado';
@@ -234,12 +346,26 @@ class _CadastroPageState extends State<CadastroPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _cityController,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')), // Permite apenas letras
                   ],
-                  decoration: InputDecoration(labelText: 'Cidade', prefixIcon: Icon(Icons.location_city)),
+                  decoration: InputDecoration(
+                    labelText: 'Cidade',
+                    prefixIcon: Icon(Icons.location_city),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Por favor, insira sua cidade';
@@ -247,9 +373,23 @@ class _CadastroPageState extends State<CadastroPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _healthPlanController,
-                  decoration: InputDecoration(labelText: 'Plano de Saúde', prefixIcon: Icon(Icons.local_hospital)),
+                  decoration: InputDecoration(
+                    labelText: 'Plano de Saúde',
+                    prefixIcon: Icon(Icons.local_hospital),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Por favor, insira seu plano de saúde';

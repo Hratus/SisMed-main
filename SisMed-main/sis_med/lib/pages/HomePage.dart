@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'AgendamentoPage.dart';
 import 'ConsultarPage.dart'; // Importe a página de consulta aqui
 import 'ConsultarCancelamentoPage.dart';
+// ignore: unused_import
 import 'CadastroPage.dart';
 import 'PrincipalPage.dart';
 
