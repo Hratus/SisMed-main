@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
@@ -141,6 +142,9 @@ class _CadastroPageState extends State<CadastroPage> {
               children: <Widget>[
                 TextFormField(
                   controller: _usernameController,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')), // Permite apenas letras
+                  ],
                   decoration: InputDecoration(labelText: 'Nome Completo', prefixIcon: Icon(Icons.person)),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -161,6 +165,8 @@ class _CadastroPageState extends State<CadastroPage> {
                 ),
                 TextFormField(
                   controller: _cpfController,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(labelText: 'Cpf', prefixIcon: Icon(Icons.badge)),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -171,6 +177,8 @@ class _CadastroPageState extends State<CadastroPage> {
                 ),
                 TextFormField(
                   controller: _phoneController,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(labelText: 'Telefone', prefixIcon: Icon(Icons.phone)),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -215,6 +223,9 @@ class _CadastroPageState extends State<CadastroPage> {
                 ),
                 TextFormField(
                   controller: _stateController,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')), // Permite apenas letras
+                  ],
                   decoration: InputDecoration(labelText: 'Estado', prefixIcon: Icon(Icons.map)),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -225,6 +236,9 @@ class _CadastroPageState extends State<CadastroPage> {
                 ),
                 TextFormField(
                   controller: _cityController,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')), // Permite apenas letras
+                  ],
                   decoration: InputDecoration(labelText: 'Cidade', prefixIcon: Icon(Icons.location_city)),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {

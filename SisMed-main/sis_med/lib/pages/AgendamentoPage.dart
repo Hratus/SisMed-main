@@ -38,44 +38,30 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
     }
   }
 
-  Future<String?> _fetchPacienteObjectId() async {
-    ParseUser currentUser = await ParseUser.currentUser() as ParseUser;
-    final query = QueryBuilder(ParseObject('Paciente'))
-      ..whereEqualTo('objectId', ParseUser.forQuery()..objectId = currentUser.objectId);
-    final response = await query.query();
 
-    if (response.success && response.results != null && response.results!.isNotEmpty) {
-      return (response.results!.first as ParseObject).objectId;
-    } else {
-      return null;
-    }
-  }
 
   Future<void> _agendar() async {
-    String? pacienteObjectId = await _fetchPacienteObjectId();
 
-    if (pacienteObjectId != null) {
-      final agendamento = ParseObject('Agendamento')
-        ..set('especialidade', dropValue2.value)
-        ..set('modalidade', dropValue3.value)
-        ..set('medico', dropValue4.value)
-        ..set('dataConsulta', dateController.text)
-        ..set('Paciente', ParseObject('Paciente')..objectId = pacienteObjectId);
 
-      final ParseResponse response = await agendamento.save();
 
-      if (response.success) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Agendamento realizado com sucesso!'),
-        ));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Erro ao realizar o agendamento: ${response.error?.message}'),
-        ));
-      }
+
+    final agendamento = ParseObject('Agendamento')
+      ..set('especialidade', dropValue2.value)
+      ..set('modalidade', dropValue3.value)
+      ..set('medico', dropValue4.value)
+      ..set('data', dateController.text);
+
+
+
+    final ParseResponse response = await agendamento.save();
+
+    if (response.success) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Agendamento realizado com sucesso!'),
+      ));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Erro: Paciente não encontrado.'),
+        content: Text('Erro ao realizar o agendamento: ${response.error?.message}'),
       ));
     }
   }
@@ -93,6 +79,10 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
       });
     }
   }
+
+  /// ----> mesma coisaaa
+
+
 
   @override
   Widget build(BuildContext context) {
