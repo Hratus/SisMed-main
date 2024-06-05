@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sis_med/pages/CadastroPage.dart';
+import 'package:SisMed/pages/CadastroPage.dart';
 import 'login.dart';
 
 

@@ -1,4 +1,4 @@
-name: sis_med
+name: SisMed
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -31,8 +31,14 @@ dependencies:
   shared_preferences: ^2.2.3
   parse_server_sdk_flutter: ^8.0.0
   intl: ^0.17.0
+  flutter_native_splash: ^2.4.0
+
+
+  xml: ^6.5.0
+
   flutter:
     sdk: flutter
+
 
 
 
@@ -43,13 +49,23 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+    android: "launcher_icon"
+    image_path: "assets/icon/SisMed.png"
+    min_sdk_android: 21
+
+
+
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+  # rules and activating additional ones
+    flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
