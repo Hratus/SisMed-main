@@ -151,7 +151,7 @@ class _CadastroPageState extends State<CadastroPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFB9CCF2),
       body: Padding(

@@ -4,6 +4,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'AgendamentoPage.dart';
 import 'ConsultarPage.dart'; // Importe a página de consulta aqui
 import 'ConsultarCancelamentoPage.dart';
+// ignore: unused_import
 import 'CadastroPage.dart';
 import 'PrincipalPage.dart';
 
